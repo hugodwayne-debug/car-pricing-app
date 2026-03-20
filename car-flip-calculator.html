@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Car Flip Calculator</title>
 <style>
-  body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
-  h1 { text-align: center; }
-  input, select { width: 100%; padding: 8px; margin: 6px 0; }
-  button { padding: 10px; width: 100%; margin: 10px 0; background: #4CAF50; color: white; border: none; cursor: pointer; }
-  .output { background: white; padding: 15px; margin-top: 10px; border-radius: 8px; }
+body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+h1 { text-align: center; }
+input, select, button { width: 100%; padding: 8px; margin: 6px 0; }
+button { background: #4CAF50; color: white; border: none; cursor: pointer; font-weight: bold; }
+.output { background: white; padding: 15px; margin-top: 10px; border-radius: 8px; }
 </style>
 </head>
 <body>
@@ -56,13 +56,13 @@
 <script>
 function calculatePrices() {
   let makeModel = document.getElementById('makeModel').value;
-  let year = parseInt(document.getElementById('year').value);
-  let mileage = parseInt(document.getElementById('mileage').value);
+  let year = parseInt(document.getElementById('year').value) || 2021;
+  let mileage = parseInt(document.getElementById('mileage').value) || 0;
   let condition = document.getElementById('condition').value;
   let recon = parseInt(document.getElementById('recon').value) || 0;
   let profitTarget = parseInt(document.getElementById('profitTarget').value) || 15000;
 
-  // Base retail and trade
+  // Base retail and trade values
   let baseRetail = 150000 - ((2026 - year) * 10000);
   let baseTrade = baseRetail * 0.75;
 
@@ -73,7 +73,7 @@ function calculatePrices() {
   }
 
   // Condition adjustment
-  let conditionAdjust = { 'excellent': 1.05, 'good': 1.0, 'average': 0.95, 'rough': 0.9 };
+  const conditionAdjust = { 'excellent': 1.05, 'good': 1.0, 'average': 0.95, 'rough': 0.9 };
   baseTrade *= conditionAdjust[condition];
   baseRetail *= conditionAdjust[condition];
 
@@ -85,7 +85,7 @@ function calculatePrices() {
   let suggestedOffer = baseTrade + profitTarget;
 
   // High/Low seller indicator
-  let highSellerModels = ['Toyota Hilux', 'NP200', 'Polo Vivo', 'Ford Ranger'];
+  const highSellerModels = ['Toyota Hilux', 'Nissan NP200', 'Volkswagen Polo Vivo', 'Ford Ranger'];
   let sellerIndicator = highSellerModels.includes(makeModel) ? 'High Seller' : 'Low Seller';
 
   document.getElementById('output').innerHTML = `
